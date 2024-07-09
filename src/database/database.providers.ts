@@ -6,6 +6,7 @@ import { UserRole } from 'src/roles/repository/user-roles.model';
 export const databaseProviders = [
   {
     provide: 'SEQUELIZE',
+    autoLoadmodels: true,
     useFactory: async () => {
       const sequelize = new Sequelize({
         dialect: 'postgres',
@@ -16,7 +17,7 @@ export const databaseProviders = [
         database: process.env.POSTGRES_DATABASE,
       });
       sequelize.addModels([User, Role, UserRole]);
-      await sequelize.sync({ force: true }); // force true!
+      await sequelize.sync({ force: false });
       return sequelize;
     },
   },

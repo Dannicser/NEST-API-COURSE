@@ -8,7 +8,7 @@ async function start(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
 
-  const config = new DocumentBuilder().setTitle('api-nest-js').setDescription('documentation rest api').build();
+  const config = new DocumentBuilder().setTitle('api-nest-js').setDescription('Documentation rest api').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);
 
