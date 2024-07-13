@@ -1,12 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from './pipes/validation.pipe';
 
 async function start(): Promise<void> {
   const PORT = process.env.PORT || 5000;
 
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
+  app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder().setTitle('api-nest-js').setDescription('Documentation rest api').build();
   const document = SwaggerModule.createDocument(app, config);
