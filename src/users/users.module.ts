@@ -7,7 +7,7 @@ import { RolesModule } from 'src/roles/roles.module';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, RolesModule, forwardRef(() => AuthModule)], // forwardRef для предотвращения кольцевых зависимостей
+  imports: [DatabaseModule, forwardRef(() => RolesModule), forwardRef(() => AuthModule)], // forwardRef для предотвращения кольцевых зависимостей
   controllers: [UsersController],
   providers: [UsersService, ...usersProviders],
   exports: [UsersService],

@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { User } from './repository/users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from 'src/roles/roles.service';
+import { AddRoleDto } from './dto/add-role.dto';
 
 Injectable();
 export class UsersService {
@@ -14,7 +15,7 @@ export class UsersService {
     const user = await this.userRepository.create(userDto);
     const role = await this.roleService.getRoleByType('USER');
     user.roles = [role];
-    await user.$set('roles', [role.id]);
+    await user.$set('roles', [role.id]); // set - инициализация
 
     return user;
   }
@@ -40,5 +41,18 @@ export class UsersService {
     });
 
     return user;
+  }
+
+  public async addRole(roleDto: AddRoleDto) {
+    const user = await this.userRepository.findByPk(roleDto.userId);
+    const role = await this.roleService.getRoleByType(roleDto.type);
+
+    if (user && role) {
+      await user.$add('role', role.id); // add - просто добавление, когда уже поле инициализировано
+
+      return roleDto;
+    }
+
+    throw new HttpException('user or role not found', HttpStatus.NOT_FOUND);
   }
 }
