@@ -11,7 +11,7 @@ export class UsersService {
     private readonly roleService: RolesService, // чтобы заинжиктить другой сервис, нужно его экспортировать в его модуле и импортировать сюда
   ) {}
 
-  async createUser(userDto: CreateUserDto) {
+  public async createUser(userDto: CreateUserDto) {
     const user = await this.userRepository.create(userDto);
     const role = await this.roleService.getRoleByType('USER');
     user.roles = [role];
@@ -20,7 +20,7 @@ export class UsersService {
     return user;
   }
 
-  async getAllUsers() {
+  public async getAllUsers() {
     const users = await this.userRepository.findAll({
       include: {
         all: true,
@@ -30,7 +30,7 @@ export class UsersService {
     return users;
   }
 
-  async getUserByEmail(email: string) {
+  public async getUserByEmail(email: string) {
     const user = await this.userRepository.findOne({
       where: {
         email,
@@ -39,6 +39,12 @@ export class UsersService {
         all: true,
       },
     });
+
+    return user;
+  }
+
+  public async getUserById(id: string) {
+    const user = await this.userRepository.findByPk(id, { attributes: { exclude: ['password'] } });
 
     return user;
   }
