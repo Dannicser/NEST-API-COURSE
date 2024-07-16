@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
 
 import { DatabaseModule } from 'src/database/database.module';
+import { PostsModule } from 'src/posts/posts.module';
 import { RolesModule } from 'src/roles/roles.module';
 import { UsersModule } from 'src/users/users.module';
 
@@ -13,6 +14,7 @@ import { UsersModule } from 'src/users/users.module';
     UsersModule,
     RolesModule,
     AuthModule,
+    PostsModule,
   ],
 })
 export class AppModule {}
